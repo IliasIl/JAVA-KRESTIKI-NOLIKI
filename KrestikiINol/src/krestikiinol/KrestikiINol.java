@@ -1,14 +1,10 @@
-
 package krestikiinol;
-
-
 
 import java.util.*;
 
-
 public class KrestikiINol {
 
-    final static int FIELD_SIZE = 3;
+    static final int FIELD_SIZE = 3;
 
     static char[][] field = new char[FIELD_SIZE][FIELD_SIZE];
 
@@ -20,32 +16,32 @@ public class KrestikiINol {
         createField();
         print();
 
-        while(true){
+        while (true) {
 
             playerTurn();
             print();
-            if(isFieldFull()) {
+            if (isFieldFull()) {
                 System.out.println("Ничья");
                 break;
             }
-            if(checkWin('X')) {
+            if (checkWin('X')) {
                 System.out.println("Победил человек!");
                 break;
             }
 
             aiTurn();
             print();
-            if(isFieldFull()) {
+            if (isFieldFull()) {
                 System.out.println("Ничья");
                 break;
             }
-            if(checkWin('O')) {
+            if (checkWin('O')) {
                 System.out.println("Победил AI!");
                 break;
             }
 
         }
-        
+
     }
 
     public static void createField() {
@@ -66,16 +62,6 @@ public class KrestikiINol {
         System.out.println();
     }
 
-    public static boolean setXO(int x, int y, char xo) {
-
-        if(field[y][x] == '*') {
-            field[y][x] = xo;
-            return true;
-        }
-
-        return false;
-    }
-
     public static void playerTurn() {
 
         int x;
@@ -86,15 +72,26 @@ public class KrestikiINol {
             x = scanner.nextInt();
             y = scanner.nextInt();
 
-        }while(!isCellEmpty(x - 1, y - 1));
+        } while (!isCellEmpty(x - 1, y - 1));
 
         setXO(x - 1, y - 1, 'X');
     }
 
     public static boolean isCellEmpty(int x, int y) {
 
-        if(field[y][x] == '*')
+        if (field[y][x] == '*') {
             return true;
+        }
+
+        return false;
+    }
+
+    public static boolean setXO(int x, int y, char xo) {
+
+        if (isCellEmpty(x, y)) {
+            field[y][x] = xo;
+            return true;
+        }
 
         return false;
     }
@@ -108,7 +105,7 @@ public class KrestikiINol {
             x = rand.nextInt(FIELD_SIZE);
             y = rand.nextInt(FIELD_SIZE);
 
-        }while(!isCellEmpty(x, y));
+        } while (!isCellEmpty(x, y));
 
         setXO(x, y, 'O');
     }
@@ -117,8 +114,9 @@ public class KrestikiINol {
 
         for (int i = 0; i < FIELD_SIZE; i++) {
             for (int j = 0; j < FIELD_SIZE; j++) {
-                if(field[i][j] == '*')
+                if (field[i][j] == '*') {
                     return false;
+                }
             }
         }
 
@@ -128,12 +126,20 @@ public class KrestikiINol {
     public static boolean checkWin(char xo) {
 
         for (int i = 0; i < FIELD_SIZE; i++) {
-            if(checkLine(0, i, 1, 0, FIELD_SIZE, xo)) return true;
-            if(checkLine(i, 0, 0, 1, FIELD_SIZE, xo)) return true;
+            if (checkLine(0, i, 1, 0, FIELD_SIZE, xo)) {
+                return true;
+            }
+            if (checkLine(i, 0, 0, 1, FIELD_SIZE, xo)) {
+                return true;
+            }
         }
 
-        if(checkLine(0, 0, 1, 1, FIELD_SIZE, xo)) return true;
-        if(checkLine(0, 2, 1, -1, FIELD_SIZE, xo)) return true;
+        if (checkLine(0, 0, 1, 1, FIELD_SIZE, xo)) {
+            return true;
+        }
+        if (checkLine(0, 2, 1, -1, FIELD_SIZE, xo)) {
+            return true;
+        }
 
         return false;
     }
@@ -141,12 +147,12 @@ public class KrestikiINol {
     public static boolean checkLine(int x, int y, int vx, int vy, int l, char xo) {
 
         for (int i = 0; i < l; i++) {
-            if(field[y + vy * i][x + vx * i] != xo) return false;
+            if (field[y + vy * i][x + vx * i] != xo) {
+                return false;
+            }
         }
 
         return true;
     }
-
-
 
 }
